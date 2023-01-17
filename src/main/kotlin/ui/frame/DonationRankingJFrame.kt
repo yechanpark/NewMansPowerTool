@@ -9,6 +9,7 @@ import java.awt.*
 import java.awt.event.KeyAdapter
 import java.awt.event.KeyEvent
 import javax.swing.*
+import javax.swing.table.DefaultTableModel
 
 class DonationRankingJFrame(title: String = TITLE): AbstractJFrame(title) {
     companion object {
@@ -18,7 +19,8 @@ class DonationRankingJFrame(title: String = TITLE): AbstractJFrame(title) {
     }
 
     private var panel: JPanel? = null
-    private lateinit var donationJList: JList<DonateInfo>
+    private lateinit var tableModel: DefaultTableModel
+    private lateinit var table: JTable
 
     init {
         initProperties()
@@ -54,7 +56,7 @@ class DonationRankingJFrame(title: String = TITLE): AbstractJFrame(title) {
         }
         add(panel)
 
-        initListPanel()
+        initTable()
         initInputPanel()
     }
 
@@ -86,7 +88,7 @@ class DonationRankingJFrame(title: String = TITLE): AbstractJFrame(title) {
         val nickNameTextField = JTextField(5)
         val amountTextField = JTextField(5)
 
-        val actionListHandler = InputRankingJTextFieldKeyAdapter(nickNameTextField, amountTextField, donationJList.model as DefaultListModel)
+        val actionListHandler = InputRankingJTextFieldKeyAdapter(nickNameTextField, amountTextField, tableModel)
         nickNameTextField.addKeyListener(actionListHandler)
         amountTextField.addKeyListener(actionListHandler)
 
@@ -98,7 +100,7 @@ class DonationRankingJFrame(title: String = TITLE): AbstractJFrame(title) {
      * */
     private fun createAddButton(nickNameTextField: JTextField, amountTextField: JTextField): JButton {
         val addListButton = JButton("추가(Enter)")
-        addListButton.addActionListener(InputRakingAddButtonListener(nickNameTextField, amountTextField, donationJList.model as DefaultListModel))
+        addListButton.addActionListener(InputRakingAddButtonListener(nickNameTextField, amountTextField, tableModel))
         return addListButton
     }
 
@@ -111,35 +113,35 @@ class DonationRankingJFrame(title: String = TITLE): AbstractJFrame(title) {
         return removeButton
     }
 
-    private fun initListPanel() {
-        JList<DonateInfo>(DefaultListModel()).let {
-            donationJList = it
+    private fun initTable() {
 
-            it.addKeyListener(object: KeyAdapter() {
+        tableModel = DefaultTableModel().apply {
+            DonateInfo.TABLE_HEADERS.forEach {
+                addColumn(it)
+            }
+        }
+
+        table = JTable(tableModel).apply {
+            addKeyListener(object: KeyAdapter() {
                 override fun keyPressed(e: KeyEvent) {
                     if (e.keyCode != KeyEvent.VK_DELETE) return
                     removeSelectedItem()
                 }
             })
-
-
-            it.selectionMode= ListSelectionModel.MULTIPLE_INTERVAL_SELECTION
-
-            val listPane = JScrollPane(it)
-            panel?.add(listPane, BorderLayout.CENTER)
+            setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION)
         }
 
-
-
-
+        JScrollPane(table).apply {
+            panel?.add(this, BorderLayout.CENTER)
+        }
     }
 
     /**
      * 선택된 항목 모두 삭제
      * */
     private fun removeSelectedItem() {
-        donationJList.selectedIndices.sortedDescending().forEach {
-            (donationJList.model as DefaultListModel).removeElementAt(it)
+        table.selectedRows.sortedDescending().forEach {
+            tableModel.removeRow(it)
         }
     }
 
