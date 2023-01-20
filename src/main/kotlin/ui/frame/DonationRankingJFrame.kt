@@ -1,15 +1,13 @@
 package ui.frame
 
+import ui.table.DonationRankingJTable
 import container.FrameContainer
-import dto.DonateInfo
 import listener.textfield.InputRakingAddButtonListener
 import listener.textfield.InputRankingJTextFieldKeyAdapter
 import listener.window.WindowCloseInvisibleListener
+import tablemodel.DonationRankingTableModel
 import java.awt.*
-import java.awt.event.KeyAdapter
-import java.awt.event.KeyEvent
 import javax.swing.*
-import javax.swing.table.DefaultTableModel
 
 class DonationRankingJFrame(title: String = TITLE): AbstractJFrame(title) {
     companion object {
@@ -19,8 +17,8 @@ class DonationRankingJFrame(title: String = TITLE): AbstractJFrame(title) {
     }
 
     private var panel: JPanel? = null
-    private lateinit var tableModel: DefaultTableModel
-    private lateinit var table: JTable
+    private var tableModel = DonationRankingTableModel()
+    private lateinit var table: DonationRankingJTable
 
     init {
         initProperties()
@@ -82,7 +80,7 @@ class DonationRankingJFrame(title: String = TITLE): AbstractJFrame(title) {
     }
 
     /**
-     *
+     * 텍스트 필드 생성
      * */
     private fun createTextFields(): Pair<JTextField, JTextField> {
         val nickNameTextField = JTextField(5)
@@ -109,40 +107,15 @@ class DonationRankingJFrame(title: String = TITLE): AbstractJFrame(title) {
      * */
     private fun createRemoveButton(): JButton {
         val removeButton = JButton("삭제(Del)")
-        removeButton.addActionListener { removeSelectedItem() }
+        removeButton.addActionListener { table.removeSelectedRows() }
         return removeButton
     }
 
     private fun initTable() {
-
-        tableModel = DefaultTableModel().apply {
-            DonateInfo.TABLE_HEADERS.forEach {
-                addColumn(it)
-            }
-        }
-
-        table = JTable(tableModel).apply {
-            addKeyListener(object: KeyAdapter() {
-                override fun keyPressed(e: KeyEvent) {
-                    if (e.keyCode != KeyEvent.VK_DELETE) return
-                    removeSelectedItem()
-                }
-            })
-            setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION)
-        }
+        table = DonationRankingJTable(tableModel)
 
         JScrollPane(table).apply {
             panel?.add(this, BorderLayout.CENTER)
         }
     }
-
-    /**
-     * 선택된 항목 모두 삭제
-     * */
-    private fun removeSelectedItem() {
-        table.selectedRows.sortedDescending().forEach {
-            tableModel.removeRow(it)
-        }
-    }
-
 }

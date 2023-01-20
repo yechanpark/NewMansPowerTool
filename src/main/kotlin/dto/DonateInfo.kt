@@ -13,7 +13,7 @@ data class DonateInfo(
     companion object {
         val TABLE_HEADERS = listOf("닉네임", "금액")
     }
-    fun convertToStringArray(): Array<String> {
-        return arrayOf(nickname, amount.toString())
+    fun convertToStringArray(): Array<Any> {
+        return arrayOf(nickname, amount)
     }
 }
