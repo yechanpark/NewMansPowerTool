@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent
 import javax.swing.DefaultRowSorter
 import javax.swing.JTable
 import javax.swing.ListSelectionModel
+import javax.swing.event.RowSorterEvent
 
 class DonationRankingJTable(
     private val donationRankingTableModel: DonationRankingTableModel
@@ -42,6 +43,12 @@ class DonationRankingJTable(
             it.toggleSortOrder(1)
             it.toggleSortOrder(1)
             it.sort()
+
+            it.addRowSorterListener { e ->
+                if (e.type == RowSorterEvent.Type.SORT_ORDER_CHANGED) {
+                    donationRankingTableModel.updateCards()
+                }
+            }
         }
     }
 
@@ -53,5 +60,6 @@ class DonationRankingJTable(
             donationRankingTableModel.removeRow(convertRowIndexToModel(it))
         }
         clearSelection()
+        donationRankingTableModel.fireTableDataChanged()
     }
 }

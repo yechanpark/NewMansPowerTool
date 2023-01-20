@@ -18,12 +18,11 @@ class DonationRankingJFrame(title: String = TITLE): AbstractJFrame(title) {
 
     private var panel: JPanel? = null
     private var tableModel = DonationRankingTableModel()
-    private lateinit var table: DonationRankingJTable
+    lateinit var table: DonationRankingJTable
 
     init {
         initProperties()
         initListeners()
-
         initPanel()
 
         FrameContainer.donationRankingJFrame = this
