@@ -44,11 +44,18 @@ class DonationRankingJTable(
             it.toggleSortOrder(1)
             it.sort()
 
+            // 정렬 변경 시 카드 업데이트
             it.addRowSorterListener { e ->
                 if (e.type == RowSorterEvent.Type.SORT_ORDER_CHANGED) {
                     donationRankingTableModel.updateCards()
                 }
             }
+
+            // RowSorter 의 정상적인 정렬을 위해 Integer 타입으로 인식하도록 하였지만, 입력 시 에는 Long 타입으로 인식되어
+            // 'class java.lang.Integer cannot be cast to class java.lang.Long' 에러 발생.
+            // 따라서 Comparator 를 커스터마이징해 타입을 일치시켜 에러 방지
+            // 금액은 최대 Long 사이즈 (9,223,372,036,854,775,807) 까지 입력 가능
+            it.setComparator(1, Comparator<Number> { a, b -> a.toLong().compareTo(b.toLong())} )
         }
     }
 

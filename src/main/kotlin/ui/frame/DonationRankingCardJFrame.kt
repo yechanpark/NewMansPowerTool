@@ -1,24 +1,38 @@
 package ui.frame
 
 import dto.DonateInfo
+import ui.panel.DonationRankingCardJPanel
 import java.awt.*
 import java.awt.event.WindowEvent
 import javax.swing.*
 
-
-class DonationRankingCardJFrame(var donateInfo: DonateInfo? = null): JFrame() {
+class DonationRankingCardJFrame(
+    var donateInfo: DonateInfo? = null,
+    private val backGroundImage: ImageIcon = ImageIcon(this::class.java.getResource(BACKGROUND_IMG_PATH)),
+    private val textFont: Font = Font("Serif", Font.PLAIN, 14)
+): JFrame() {
     companion object {
-        private const val WIDTH = 50
-        private const val HEIGHT = 50
+        private const val BACKGROUND_IMG_PATH = "/img/rankcard.jpg"
     }
 
+    /* Panels */
     private var panel: JPanel? = null
-    private var nickNameJLabel = JLabel()
-    private var amountJLabel = JLabel()
+
+    /* Labels */
+    private var nickNameJLabel = getDefaultFontTextLabel()
+    private var amountJLabel = getDefaultFontTextLabel()
+
+    /* Image Properties */
+    private var imageWidth = backGroundImage.image.getWidth(null)
+    private var imageHeight = backGroundImage.image.getHeight(null)
 
     init {
         initProperties()
         initPanel()
+    }
+
+    private fun getDefaultFontTextLabel(): JLabel {
+        return JLabel().apply { font = textFont }
     }
 
     /**
@@ -27,27 +41,33 @@ class DonationRankingCardJFrame(var donateInfo: DonateInfo? = null): JFrame() {
     private fun initProperties() {
         layout = GridLayout()
         isResizable = false
-        minimumSize = Dimension(WIDTH, HEIGHT)
+        minimumSize = Dimension(imageWidth, imageHeight)
         type = Type.UTILITY
         isUndecorated = true
+        isVisible = true
     }
 
     private fun initPanel() {
-        panel = JPanel().apply {
-            layout = BorderLayout()
-        }
+        panel = DonationRankingCardJPanel(backGroundImage)
         panel?.add(nickNameJLabel)
         panel?.add(amountJLabel)
 
         add(panel)
     }
 
-    fun update() {
+    fun update(index: Int) {
+        setLocation(index * imageWidth, 0)
         nickNameJLabel.text = donateInfo?.nickname
         amountJLabel.text = donateInfo?.amount.toString()
     }
 
     fun remove() {
         this.dispatchEvent(WindowEvent(this, WindowEvent.WINDOW_CLOSING))
+    }
+
+    fun updateFont(textSize: Int) {
+        val newFont = Font("Serif", Font.PLAIN, textSize)
+        nickNameJLabel.font = newFont
+        amountJLabel.font = newFont
     }
 }
