@@ -21,8 +21,8 @@ class DonationRankingCardJFrame(
     private var amountJLabel = getDefaultFontTextLabel()
 
     /* Image Properties */
-    private var imageWidth = backGroundImage.image.getWidth(null)
-    private var imageHeight = backGroundImage.image.getHeight(null)
+    private var imageWidth = backGroundImage.iconWidth
+    private var imageHeight = backGroundImage.iconHeight
 
     init {
         initProperties()

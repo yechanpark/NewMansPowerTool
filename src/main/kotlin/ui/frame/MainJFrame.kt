@@ -29,7 +29,7 @@ class MainJFrame(
     private fun initLayout() {
         layout = GridLayout()
         isResizable = false
-        minimumSize = Dimension(backGroundImage.image.getWidth(null), backGroundImage.image.getHeight(null))
+        minimumSize = Dimension(backGroundImage.iconWidth, backGroundImage.iconHeight)
         // 프로그램 실행 시 중앙에서 팝업
         setLocationRelativeTo(null)
     }
