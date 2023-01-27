@@ -1,6 +1,7 @@
 package ui.frame
 
 import container.FrameContainer
+import listener.button.DonationRankingConfigButtonListener
 import listener.textfield.InputRakingAddButtonListener
 import listener.textfield.InputRankingJTextFieldKeyAdapter
 import listener.window.WindowCloseInvisibleListener
@@ -205,7 +206,7 @@ class DonationRankingJFrame(title: String = TITLE): AbstractJFrame(title) {
      * */
     private fun createConfigButton(): JButton {
         val configButton = JButton("설정")
-        configButton.addActionListener { println("설정버튼") }
+        configButton.addActionListener(DonationRankingConfigButtonListener())
         return configButton
     }
 
