@@ -70,15 +70,18 @@ class DonationRankingConfigJFrame(title: String = TITLE): AbstractJFrame(title) 
 
         add(inputPanel, panelGBC)
 
-        /* 슬라이더 설정 */
-        createSliders(inputPanel)
+        /* 라벨 설정 */
+        createLabels(inputPanel)
+
+        /* 버튼 설정 */
+        createButtons(inputPanel)
     }
 
     /**
      * 라벨 생성
      * */
-    private fun createSliders(inputPanel: JPanel) {
-        val fontSizeGBC = GridBagConstraints().apply {
+    private fun createLabels(inputPanel: JPanel) {
+        val gbc = GridBagConstraints().apply {
             this.fill = GridBagConstraints.HORIZONTAL
             this.gridx = 0
             this.gridy = 0
@@ -86,12 +89,25 @@ class DonationRankingConfigJFrame(title: String = TITLE): AbstractJFrame(title) 
             this.weighty = .05
             this.insets = DEFAULT_INSET
         }
-        val fontSlider = JSlider(1, 10, 5).apply {
-            this.majorTickSpacing = 1
-            this.paintTicks = true
-            this.paintLabels = true
+        inputPanel.add(JLabel("도네 랭킹 카드 미리보기 (점선은 보이지 않음)"), gbc)
+    }
+
+    /**
+     * 버튼 생성
+     * */
+    private fun createButtons(inputPanel: JPanel) {
+        val gbc = GridBagConstraints().apply {
+            this.fill = GridBagConstraints.HORIZONTAL
+            this.gridx = 0
+            this.gridy = 1
+            this.weightx = .05
+            this.weighty = .05
+            this.insets = DEFAULT_INSET
         }
-        inputPanel.add(fontSlider, fontSizeGBC)
+
+        val confirmButton = JButton("저장")
+        confirmButton.addActionListener { println("설정 저장") }
+        inputPanel.add(confirmButton, gbc)
     }
 
     private fun initPreviewPanel() {

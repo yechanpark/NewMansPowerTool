@@ -1,5 +1,6 @@
 package ui.panel
 
+import constants.ImagePath
 import java.awt.Graphics
 import javax.swing.ImageIcon
 import javax.swing.JPanel
@@ -8,12 +9,8 @@ import javax.swing.JPanel
  * 도네이션 랭킹 설정 프리뷰 패널
  * */
 class DonationRankingConfigPreviewJPanel(
-    private val backGroundImage: ImageIcon = ImageIcon(this::class.java.getResource(BACKGROUND_IMG_PATH)),
+    private val backGroundImage: ImageIcon = ImageIcon(DonationRankingConfigPreviewJPanel::class.java.getResource(ImagePath.RANK_CARD.path)),
 ): JPanel() {
-
-    companion object {
-        private const val BACKGROUND_IMG_PATH = "/img/rankcard.jpg"
-    }
 
     /**
      * 배경화면 설정

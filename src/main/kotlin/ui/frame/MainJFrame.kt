@@ -1,5 +1,6 @@
 package ui.frame
 
+import constants.ImagePath
 import container.FrameContainer
 import listener.window.WindowCloseConfirmListener
 import listener.window.WindowMoveListener
@@ -8,13 +9,10 @@ import java.awt.*
 import javax.swing.*
 
 class MainJFrame(
-    private val backGroundImage: ImageIcon = ImageIcon(this::class.java.getResource(BACKGROUND_IMG_PATH))
+    private val backGroundImage: ImageIcon = ImageIcon(this::class.java.getResource(ImagePath.MAIN.path))
 ): AbstractJFrame() {
 
     private var panel: JPanel? = null
-    companion object {
-        const val BACKGROUND_IMG_PATH = "/img/main.jpg"
-    }
 
     init {
         initLayout()

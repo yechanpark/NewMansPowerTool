@@ -1,5 +1,6 @@
 package ui.frame
 
+import constants.ImagePath
 import javax.swing.*
 
 open class AbstractJFrame(
@@ -7,7 +8,6 @@ open class AbstractJFrame(
 ): JFrame(titleText) {
 
     companion object {
-        private const val DEFAULT_ICON_IMG_PATH = "/img/icon.jpg"
         const val DEFAULT_TITLE = "신남성연대 Tool"
     }
 
@@ -20,7 +20,7 @@ open class AbstractJFrame(
      * 타이틀 바 아이콘 이미지 설정
      * */
     private fun initIcon() {
-        iconImage = ImageIcon(this::class.java.getResource(DEFAULT_ICON_IMG_PATH)).image
+        iconImage = ImageIcon(this::class.java.getResource(ImagePath.ICON.path)).image
     }
 
     /**

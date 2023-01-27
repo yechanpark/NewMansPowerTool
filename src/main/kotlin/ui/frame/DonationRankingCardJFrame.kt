@@ -1,5 +1,6 @@
 package ui.frame
 
+import constants.ImagePath
 import dto.DonateInfo
 import ui.panel.DonationRankingCardJPanel
 import java.awt.*
@@ -8,12 +9,9 @@ import javax.swing.*
 
 class DonationRankingCardJFrame(
     var donateInfo: DonateInfo? = null,
-    private val backGroundImage: ImageIcon = ImageIcon(this::class.java.getResource(BACKGROUND_IMG_PATH)),
+    private val backGroundImage: ImageIcon = ImageIcon(DonationRankingCardJFrame::class.java.getResource(ImagePath.RANK_CARD.path)),
     private val textFont: Font = Font("Serif", Font.PLAIN, 14)
 ): JFrame() {
-    companion object {
-        private const val BACKGROUND_IMG_PATH = "/img/rankcard.jpg"
-    }
 
     /* Panels */
     private var panel: JPanel? = null
