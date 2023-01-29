@@ -1,18 +1,21 @@
 package listener.mouse
 
-import java.awt.Cursor
-import java.awt.Point
+import ui.label.PreviewLabel
 import java.awt.event.MouseAdapter
 import java.awt.event.MouseEvent
 import java.awt.event.MouseWheelEvent
-import javax.swing.JLabel
 import javax.swing.JPanel
 
-class DonationRankingPreviewLabelMouseListener(private val label: JLabel, private val panel: JPanel): MouseAdapter() {
+class DonationRankingPreviewLabelMouseListener(private val label: PreviewLabel, private val panel: JPanel): MouseAdapter() {
+
+    private fun translatePoint(e: MouseEvent) {
+        e.translatePoint(e.component.location.x, e.component.location.y)
+    }
     /**
      * 버튼 뗀 순간
      * */
     override fun mouseClicked(e: MouseEvent) {
+        translatePoint(e)
         super.mouseClicked(e)
     }
 
@@ -20,28 +23,26 @@ class DonationRankingPreviewLabelMouseListener(private val label: JLabel, privat
      * 마우스 드래그할 때
      * */
     override fun mouseDragged(e: MouseEvent) {
-
+        translatePoint(e)
         label.apply {
             // TODO: 화면 밖으로 나가지 않도록 계산 필요
-            location = Point(e.point)
+            setBounds(e.x, e.y, labelWidth, labelHeight)
         }
-
-        println(label.location)
     }
 
     /**
      * 마우스가 영역 내로 들어갔을 때
      * */
     override fun mouseEntered(e: MouseEvent) {
-        label.apply {
-            cursor = Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR)
-        }
+        translatePoint(e)
+        super.mouseEntered(e)
     }
 
     /**
      * 마우스가 영역 밖으로 나갔을 때
      * */
     override fun mouseExited(e: MouseEvent) {
+        translatePoint(e)
         super.mouseExited(e)
     }
 
@@ -49,6 +50,7 @@ class DonationRankingPreviewLabelMouseListener(private val label: JLabel, privat
      * 버튼 누른 순간
      * */
     override fun mousePressed(e: MouseEvent) {
+        translatePoint(e)
         super.mousePressed(e)
     }
 
@@ -56,6 +58,7 @@ class DonationRankingPreviewLabelMouseListener(private val label: JLabel, privat
      * 버튼 뗀 순간
      * */
     override fun mouseReleased(e: MouseEvent) {
+        translatePoint(e)
         super.mouseReleased(e)
     }
 
@@ -63,15 +66,15 @@ class DonationRankingPreviewLabelMouseListener(private val label: JLabel, privat
      * 영역 상에서 마우스 움직일 때
      * */
     override fun mouseMoved(e: MouseEvent) {
-        label.apply {
-            cursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)
-        }
+        translatePoint(e)
+        super.mouseMoved(e)
     }
 
     /**
      * 마우스 휠 움직일 때
      * */
     override fun mouseWheelMoved(e: MouseWheelEvent) {
+        translatePoint(e)
         if (e.wheelRotation > 0)
             println("휠 내림")
         else

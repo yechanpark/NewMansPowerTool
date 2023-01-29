@@ -1,7 +1,7 @@
 package ui.panel
 
 import container.FrameContainer
-import listener.mouse.DonationRankingPreviewLabelMouseListener
+import ui.label.PreviewLabel
 import java.awt.*
 import javax.swing.BorderFactory
 import javax.swing.ImageIcon
@@ -39,50 +39,17 @@ class DonationRankingConfigPreviewJPanel(private val previewImage: ImageIcon): J
     private fun createNickNameLabel() {
         val outerPanel = this
 
-        val nickNameLabel = JLabel("닉네임").apply {
-            size = Dimension(50, 50)
-            location = Point(previewImage.iconHeight * 1/2, previewImage.iconHeight * 1/3)
-            border = BorderFactory.createLineBorder(Color.BLACK)
-            val mouseAdapter = DonationRankingPreviewLabelMouseListener(this, outerPanel)
-            addMouseListener(mouseAdapter)
-            addMouseMotionListener(mouseAdapter)
-            addMouseWheelListener(mouseAdapter)
+        val nickNameLabel = PreviewLabel("닉네임", previewImage.iconHeight * 1/2, previewImage.iconHeight * 1/3).apply {
+            addMouseAdapter(outerPanel)
+            fitTestSizeOnLabel()
         }
         add(nickNameLabel)
 
-        val amountLabel = JLabel("1000000").apply {
-            size = Dimension(50, 50)
-            location = Point(previewImage.iconHeight * 1/2, previewImage.iconHeight * 2/3)
-            border = BorderFactory.createLineBorder(Color.BLACK)
-            val mouseAdapter = DonationRankingPreviewLabelMouseListener(this, outerPanel)
-            addMouseListener(mouseAdapter)
-            addMouseMotionListener(mouseAdapter)
-            addMouseWheelListener(mouseAdapter)
+        val amountLabel = PreviewLabel("1000000", previewImage.iconHeight * 1/2, previewImage.iconHeight * 2/3).apply {
+            addMouseAdapter(outerPanel)
+            fitTestSizeOnLabel()
         }
         add(amountLabel)
-
-        val labelFont: Font = nickNameLabel.font
-        val labelText: String = nickNameLabel.text
-
-        val stringWidth: Int = nickNameLabel.getFontMetrics(labelFont).stringWidth(labelText)
-
-        println("stringWidth: $stringWidth")
-        val componentWidth: Int = nickNameLabel.width
-        println("componentWidth: $componentWidth")
-        // Find out how much the font can grow in width.
-        val widthRatio = componentWidth.toDouble() / stringWidth.toDouble()
-        println("widthRatio: $widthRatio")
-        val newFontSize = (labelFont.size * widthRatio).toInt()
-        println("newFontSize: $newFontSize")
-        val componentHeight: Int = nickNameLabel.height
-        println("componentHeight: $componentHeight")
-        // Pick a new font size so it will not be larger than the height of label.
-        val fontSizeToUse = newFontSize.coerceAtMost(componentHeight)
-        println("fontSizeToUse: $fontSizeToUse")
-
-        // Set the label's font size to the newly determined size.
-        nickNameLabel.font = Font(labelFont.name, Font.PLAIN, fontSizeToUse)
-
     }
 
     private fun a() {
