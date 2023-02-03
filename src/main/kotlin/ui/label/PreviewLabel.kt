@@ -8,20 +8,27 @@ import java.awt.Point
 import javax.swing.BorderFactory
 import javax.swing.JLabel
 import javax.swing.JPanel
+import javax.swing.SwingConstants
 
-class PreviewLabel(text: String, initPointX: Int, initPointY: Int): JLabel(text) {
+class PreviewLabel(text: String, initPointX: Int, initPointY: Int, labelWidth: Int, labelHeight: Int): JLabel(text) {
 
     var pointX: Int = 0
     var pointY: Int = 0
-    var labelWidth = 100
-    var labelHeight = 50
+    var labelWidth = 300
+    var labelHeight = 200
+    val color = Color.WHITE
 
     init {
         pointX = initPointX
         pointY = initPointY
         location = Point(pointX, pointY)
+        this.labelWidth = labelWidth
+        this.labelHeight = labelHeight
         size = Dimension(labelWidth, labelHeight)
         border = BorderFactory.createLineBorder(Color.BLACK)
+        foreground = color
+        horizontalAlignment = SwingConstants.CENTER
+        verticalAlignment = SwingConstants.CENTER
     }
 
     fun addMouseAdapter(panel: JPanel) {
@@ -31,7 +38,10 @@ class PreviewLabel(text: String, initPointX: Int, initPointY: Int): JLabel(text)
         addMouseWheelListener(mouseAdapter)
     }
 
-    fun fitTestSizeOnLabel() {
+    /**
+     * 텍스트 크기를 라벨에 맞춤
+     * */
+    fun fitTextSizeOnLabel() {
         val stringWidth: Int = getFontMetrics(font).stringWidth(text)
 
         // Find out how much the font can grow in width.

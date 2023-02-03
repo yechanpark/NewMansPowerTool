@@ -13,6 +13,7 @@ class DonationRankingConfigJFrame(
 ): AbstractJFrame(title) {
 
     lateinit var inputPanel: JPanel
+    lateinit var dataPanel: JPanel
 
     companion object {
         private const val INPUT_COMPONENTS_PADDING_VALUE = 5
@@ -110,12 +111,18 @@ class DonationRankingConfigJFrame(
         }
 
         val confirmButton = JButton("저장")
-        confirmButton.addActionListener { println("설정 저장") }
+        // 설정 저장 시 닉네임, 금액 라벨에 대해 폰트, 위치 일괄 저장
+        confirmButton.addActionListener {
+            FrameContainer.donationRankingCardJFrames.forEach {
+                //it.updateNickNameLabel()
+                //it.updateAmountLabel()
+            }
+        }
         inputPanel.add(confirmButton, gbc)
     }
 
     private fun initPreviewPanel() {
-        val dataPanel = DonationRankingConfigPreviewJPanel(previewImage)
+        dataPanel = DonationRankingConfigPreviewJPanel(previewImage)
         add(dataPanel)
     }
 }

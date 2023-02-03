@@ -63,9 +63,27 @@ class DonationRankingCardJFrame(
         this.dispatchEvent(WindowEvent(this, WindowEvent.WINDOW_CLOSING))
     }
 
-    fun updateFont(textSize: Int) {
-        val newFont = Font("Serif", Font.PLAIN, textSize)
-        nickNameJLabel.font = newFont
-        amountJLabel.font = newFont
+    fun updateNickNameLabel(
+        newFont: Font = textFont, newPointX: Int, newPointY: Int, newWidth: Int, newHeight: Int, color: Color?
+    ) {
+        nickNameJLabel.apply {
+            font = newFont
+            setBounds(newPointX, newPointY, newWidth, newHeight)
+            color?.let {
+                this.foreground = it
+            }
+        }
+    }
+
+    fun updateAmountLabel(
+        newFont: Font = textFont, newPointX: Int, newPointY: Int, newWidth: Int, newHeight: Int, color: Color?
+    ) {
+        amountJLabel.apply {
+            font = newFont
+            setBounds(newPointX, newPointY, newWidth, newHeight)
+            color?.let {
+                this.foreground = it
+            }
+        }
     }
 }

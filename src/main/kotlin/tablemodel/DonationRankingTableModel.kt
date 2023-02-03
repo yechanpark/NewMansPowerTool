@@ -5,7 +5,6 @@ import dto.DonateInfo
 import ui.frame.DonationRankingCardJFrame
 import java.util.*
 import javax.swing.DefaultRowSorter
-import javax.swing.RowSorter
 import javax.swing.SortOrder
 import javax.swing.table.DefaultTableModel
 import kotlin.math.absoluteValue

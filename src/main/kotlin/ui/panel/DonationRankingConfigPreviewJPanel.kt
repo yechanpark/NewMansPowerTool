@@ -5,7 +5,6 @@ import ui.label.PreviewLabel
 import java.awt.*
 import javax.swing.BorderFactory
 import javax.swing.ImageIcon
-import javax.swing.JLabel
 import javax.swing.JPanel
 
 /**
@@ -15,7 +14,7 @@ class DonationRankingConfigPreviewJPanel(private val previewImage: ImageIcon): J
 
     init {
         initProperties()
-        createNickNameLabel()
+        createLabels()
     }
 
     /**
@@ -36,41 +35,33 @@ class DonationRankingConfigPreviewJPanel(private val previewImage: ImageIcon): J
         location = Point(insets.left, FrameContainer.donationRankingConfigJFrame!!.inputPanel.height)
     }
 
-    private fun createNickNameLabel() {
+    private fun createLabels() {
         val outerPanel = this
 
-        val nickNameLabel = PreviewLabel("닉네임", previewImage.iconHeight * 1/2, previewImage.iconHeight * 1/3).apply {
+        val nickNameLabel = PreviewLabel(
+            text = "닉네임",
+            initPointX = 270, // previewImage.iconHeight * 1/8,
+            initPointY = 30, // previewImage.iconHeight * 1/3,
+            labelWidth = 600,
+            labelHeight = 200
+        ).apply {
             addMouseAdapter(outerPanel)
-            fitTestSizeOnLabel()
+            fitTextSizeOnLabel()
         }
         add(nickNameLabel)
 
-        val amountLabel = PreviewLabel("1000000", previewImage.iconHeight * 1/2, previewImage.iconHeight * 2/3).apply {
+        val amountLabel = PreviewLabel(
+            text = "1000000",
+            initPointX = 100, // previewImage.iconHeight * 6/8,
+            initPointY = 280, // previewImage.iconHeight * 2/3,
+            labelWidth = 700,
+            labelHeight = 200
+
+        ).apply {
             addMouseAdapter(outerPanel)
-            fitTestSizeOnLabel()
+            fitTextSizeOnLabel()
         }
         add(amountLabel)
-    }
-
-    private fun a() {
-        val label = JLabel("아아")
-        val labelFont: Font = label.font
-        val labelText: String = label.text
-
-        val stringWidth: Int = label.getFontMetrics(labelFont).stringWidth(labelText)
-        val componentWidth: Int = label.width
-
-        // Find out how much the font can grow in width.
-        val widthRatio = componentWidth.toDouble() / stringWidth.toDouble()
-
-        val newFontSize = (labelFont.size * widthRatio).toInt()
-        val componentHeight: Int = label.height
-
-        // Pick a new font size so it will not be larger than the height of label.
-        val fontSizeToUse = newFontSize.coerceAtMost(componentHeight)
-
-        // Set the label's font size to the newly determined size.
-        label.font = Font(labelFont.name, Font.PLAIN, fontSizeToUse)
     }
 
 }
